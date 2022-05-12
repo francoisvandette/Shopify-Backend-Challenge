@@ -17,6 +17,7 @@ app.post(`/insert`, (request, response) => {
 });
 
 
+
 // read
 app.get(`/getAll`, (request, response) => {
     console.log(`read request`);

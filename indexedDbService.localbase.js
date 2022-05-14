@@ -2,6 +2,8 @@
 const dbName = `FrancoisVandette_inventoryDB`;
 let db = new Localbase(dbName);
 
+let productExistsResult;
+
 function loadTestData() {
     // products
     db.collection(`product`).add({
@@ -59,7 +61,7 @@ function loadTestData() {
 
 // Product CRUD
 // create
-function productCreate(code, name, desc, categ) {
+async function productCreate(code, name, desc, categ) {
     db.collection(`product`).add({
         ProductCode: code,
         ProductName: name,
@@ -72,10 +74,33 @@ function productCreate(code, name, desc, categ) {
 // read
 
 
-function productGetByKey(key) {
+async function productGetByKey(key) {
     db.collection.doc(key.toString()).get().then(product => {
         console.log(product);
     })
+}
+
+async function productGetByCode(code) {
+    let result;
+    await db.collection(`product`).doc({ProductCode: code}).get().then(product => {
+        result = product;
+        console.log(`productGetByCode: `,product);
+    })
+    return result;
+}
+
+async function productExists(code) {
+    
+    db.collection(`product`).doc({ProductCode: code}).get().then(product => {
+        console.log(`productExists length:`,product);
+        if(product) {
+            productExistsResult = true;
+        } else {
+            productExistsResult = false;
+        }
+        console.log(`productExistsResult:`,productExistsResult)
+    })
+    
 }
 
 // update

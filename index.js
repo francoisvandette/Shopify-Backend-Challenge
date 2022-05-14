@@ -7,44 +7,9 @@ let inputDesc = document.querySelector(`#product-description-input`);
 let inputCateg = document.querySelector(`#product-category-input`);
 let createProductBtn = document.querySelector(`#create-product-btn`);
 let editProductBtn = document.querySelector(`#edit-product-btn`);
+let editProductCodeDisplay = document.querySelector(`#product-code-edit`);
 
 productDisplayAll();
-// loading current product table contents (reg IndexedDB)
-// setTimeout(function () {
-//     getAllProducts();
-// }, 100)
-// setTimeout(function() {
-
-//     // Edit Button functionality
-//     for(let i = 0; i < editBtns.length; i++) {
-//         editBtns[i].addEventListener(`click`, function () {
-//             console.log(`editing:`,editBtns[i].value);
-//         })
-//     }
-
-//     // Delete Button functionality
-//     for(let i = 0; i < deleteBtns.length; i++) {
-//         deleteBtns[i].addEventListener(`click`, async function () {
-//             // console.log(`deleting:`,deleteBtns[i].value);
-//             let con = confirm(`Are you sure you want to delete this product?`);
-//             if(con) {
-//                 await productDeleteByCode(deleteBtns[i].value);
-//             }
-//             if(con && confirm(`Would you also like to delete all inventory listings?`)) {
-//                 await inventoryDeleteAllRowsByProductCode(deleteBtns[i].value);
-//             }
-
-//             await displayProductAll();
-            
-//         })
-//     }
-// }, 100)
-
-
-// async function deleteProduct() {
-
-// }
-
 
 async function productDisplayAll() {
     let productList;
@@ -103,10 +68,14 @@ async function productDisplayAll() {
         editBtns[i].addEventListener(`click`, function () {
             console.log(`editing:`,editBtns[i].value);
             db.collection(`product`).doc({ProductCode: editBtns[i].value}).get().then(product => {
-                inputCode.value = product.ProductCode;
+                editProductCodeDisplay.innerHTML = product.ProductCode;
+                inputCode.style.display = `none`;
                 inputName.value = product.ProductName;
+                inputName.placeholder = product.ProductName;
                 inputDesc.value = product.Description;
+                inputDesc.placeholder = product.Description;
                 inputCateg.value = product.Category;
+                inputCateg.placeholder = product.Category;
                 createProductBtn.style.display = `none`;
                 editProductBtn.style.display = `block`;
             })
@@ -133,23 +102,70 @@ async function productDisplayAll() {
     }
 }
 
+async function createProduct() {
+    let code = inputCode.value.trim();
+    let name = inputName.value.trim();
+    let desc = inputDesc.value.trim();
+    let categ = inputCateg.value.trim();
+
+    // check if product code exists, if no then can create
+    productExists(code);
+
+    setTimeout(function() {
+        if(!productExistsResult){
+            productCreate(code, name, desc, categ);
+            setTimeout(function() {
+                productDisplayAll();
+            }, 10)
+            inputCode.value = ``;
+            inputName.value = ``;
+            inputDesc.value = ``;
+            inputCateg.value = ``;
+        } else {
+            alert(`Product code already exists, use a different one.`)
+        }
+        
+        productExistsResult = false;
+    }, 10)
+
+    
+}
+
+createProductBtn.addEventListener(`click`, createProduct);
+
 async function setEditProductChanges() {
-    let code = inputCode.value;
+    let code = editProductCodeDisplay.innerHTML;
     let name = inputName.value;
     let desc = inputDesc.value;
     let categ = inputCateg.value;
 
-    console.log(`1 product edit`);
+    if(inputName.value.trim() == ``){
+        name = inputName.placeholder;
+    }
+    if(inputDesc.value.trim() == ``){
+        desc = inputDesc.placeholder;
+    }
+    if(inputCateg.value.trim() == ``){
+        categ = inputCateg.placeholder;
+    }
+
     await productEdit(code, name, desc, categ);
-    console.log(`2 product edit`);
-    await productDisplayAll();
+    setTimeout(function(){
+        productDisplayAll()
+    }, 10);
 
     editProductBtn.style.display = `none`;
     createProductBtn.style.display = `block`;
+    editProductCodeDisplay.innerHTML = ``;
+    inputCode.style.display = `inline`;
     inputCode.value = ``;
+    inputCode.placeholder = ``;
     inputName.value = ``;
+    inputName.placeholder = ``;
     inputDesc.value = ``;
+    inputDesc.placeholder = ``;
     inputCateg.value = ``;
+    inputCateg.placeholder = ``;
 }
 
 editProductBtn.addEventListener(`click`, setEditProductChanges);

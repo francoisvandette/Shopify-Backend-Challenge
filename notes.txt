@@ -1,2 +1,16 @@
 - localbase library returns arrays and seems to be very straighforward.
 	- I think I can return the Inventory table, return the warehouse table, and just make a new array with the info I need to do a mock JOIN
+	
+for(let i = 0; i < productTable1.length; i++) {
+	if (productTable1[i].ProductName == `crap`) {
+		array1.push(productTable1[i]);
+	}
+}
+
+
+- for warehouses, I think just having a page for adding and editing 
+
+- inventory
+	- product code dropdown, generated 
+	- warehouse dropdown, generated
+	- input for quantity, maybe with arrows up and down?, loaded from db

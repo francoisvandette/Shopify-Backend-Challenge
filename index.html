@@ -10,22 +10,28 @@
 <body>
     <div>
         <form action="">
-            <label for="item-name-input">Item Name:</label>
-            <input type="text" id="item-name-input">
-            <label for="quantity-input">Quantity:</label>
-            <input type="text" id="quantity-input">
-            <label for="location-input">Location:</label>
-            <select name="location-input" id="location-input">
+            <!-- code -->
+            <label for="product-code-input">Product Code:</label>
+            <input type="text" id="product-code-input"><br>
+            <!-- name -->
+            <label for="product-name-input">Product Name:</label>
+            <input type="text" id="product-name-input"><br>
+            <!-- desc -->
+            <label for="product-description-input">Description:</label>
+            <input type="text" id="product-description-input"><br>
+            <!-- categ -->
+            <label for="product-category-input">Category:</label>
+            <input type="text" id="product-category-input"><br>
                 
-            </select>
-            <button type="submit" id="submit-btn">Submit</button>
-        </form>
+            <button type="button" id="create-product-btn">Create Product</button>
+            <button type="button" id="edit-product-btn" style="display: none;">Edit Product</button>
+        </form><br>
     </div>
     <div id="product-table">
         <table>
             <thead>
-                <th >ID</th>
-                <th>Product Name</th>
+                <th>Prod.Code</th>
+                <th>Prod. Name</th>
                 <th>Description</th>
                 <th>Category</th>
                 <th>Total Quantity</th>
@@ -42,21 +48,21 @@
     
     <script src="localbase.dev.js"></script>
     <script>
-        let db = new Localbase('FrancoisVandette_inventoryDB');
+        // let db = new Localbase('FrancoisVandette_inventoryDB');
 
-        let productTable1;
-        let array2 = [];
-        let testarray = db.collection('product').get().then(product => {
-            console.log(product);
-            let productTable1 = product;
-            let array1 = [];
-            for(let i = 0; i < productTable1.length; i++) {
-                if (productTable1[i].ProductName == `crap`) {
-                    array1.push(productTable1[i]);
-                }
-            }
-            console.log(`"crap" rows:`,array1);
-            return array1;
+        // let productTable1;
+        // let array2 = [];
+        // let testarray = db.collection('product').get().then(product => {
+        //     console.log(product);
+        //     let productTable1 = product;
+        //     let array1 = [];
+        //     for(let i = 0; i < productTable1.length; i++) {
+        //         if (productTable1[i].ProductName == `crap`) {
+        //             array1.push(productTable1[i]);
+        //         }
+        //     }
+        //     console.log(`"crap" rows:`,array1);
+        //     return array1;
 
         // }).then(productTable1 => {
         //     for(let i = 0; i < productTable1.length; i++) {
@@ -65,17 +71,17 @@
         //         }
         //     }
         //     console.log(array1);
-        });
+        // });
 
         
         
         
 
-        let firstTest = db.collection('product').doc({ ProductName: `test` }).get().then(document => {
-            console.log(document);
-        });
+        // let firstTest = db.collection('product').doc({ ProductName: `test` }).get().then(document => {
+        //     console.log(document);
+        // });
     </script>
-    <script src="indexedDbService.js"></script>
+    <script src="indexedDbService.localbase.js"></script>
     <script src="index.js"></script>
     
 </body>

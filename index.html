@@ -40,6 +40,41 @@
 
 
     
+    <script src="localbase.dev.js"></script>
+    <script>
+        let db = new Localbase('FrancoisVandette_inventoryDB');
+
+        let productTable1;
+        let array2 = [];
+        let testarray = db.collection('product').get().then(product => {
+            console.log(product);
+            let productTable1 = product;
+            let array1 = [];
+            for(let i = 0; i < productTable1.length; i++) {
+                if (productTable1[i].ProductName == `crap`) {
+                    array1.push(productTable1[i]);
+                }
+            }
+            console.log(`"crap" rows:`,array1);
+            return array1;
+
+        // }).then(productTable1 => {
+        //     for(let i = 0; i < productTable1.length; i++) {
+        //         if (productTable1[i].ProductName == `crap`) {
+        //             array1.push(productTable1[i]);
+        //         }
+        //     }
+        //     console.log(array1);
+        });
+
+        
+        
+        
+
+        let firstTest = db.collection('product').doc({ ProductName: `test` }).get().then(document => {
+            console.log(document);
+        });
+    </script>
     <script src="indexedDbService.js"></script>
     <script src="index.js"></script>
     

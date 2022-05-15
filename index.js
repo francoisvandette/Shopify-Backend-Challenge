@@ -169,3 +169,16 @@ async function setEditProductChanges() {
 }
 
 editProductBtn.addEventListener(`click`, setEditProductChanges);
+
+let checkbox = document.querySelector(`#add-inventory-check`);
+
+checkbox.addEventListener(`click`, checked)
+
+function checked() {
+    if(checkbox.checked){
+        console.log(`checkbox is checked`);
+    }
+    if(!checkbox.checked){
+        console.log(`checkbox NOT checked`);
+    }
+}

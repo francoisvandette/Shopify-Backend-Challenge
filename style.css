@@ -2,3 +2,13 @@ table, th, td {
     border-collapse: collapse;
     border: 1px solid black;
 }
+
+div#header a {
+    border: 1px solid black;
+    padding: 5px;
+    margin: 2px;
+}
+
+div#header {
+    margin-bottom: 10px;
+}

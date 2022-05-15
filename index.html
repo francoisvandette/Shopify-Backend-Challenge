@@ -5,12 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Inventory Manager</title>
+    <title>Inventory Manager: Home/Product</title>
 </head>
 <body>
-
+    <div id="header">
+        <script src="header.js"></script>
+    </div>
     <div>
-        <form action="">
+        <form>
             <!-- code -->
             <label for="product-code-input">Product Code:</label>
             <input type="text" id="product-code-input"><span id="product-code-edit"></span><br>
@@ -23,8 +25,12 @@
             <!-- categ -->
             <label for="product-category-input">Category:</label>
             <input type="text" id="product-category-input"><br>
-                
-            <button type="button" id="create-product-btn">Create Product</button>
+            <!-- checkbox -->
+            <label for="add-inventory-checkbox">Add Inventory?:</label>
+            <input type="checkbox" id="add-inventory-check"><br>
+
+
+            <button type="button" id="create-product-btn" style="display: block">Create Product</button>
             <button type="button" id="edit-product-btn" style="display: none;">Edit Product</button>
         </form><br>
     </div>
@@ -48,42 +54,7 @@
 
     
     <script src="localbase.dev.js"></script>
-    <script>
-        // let db = new Localbase('FrancoisVandette_inventoryDB');
-
-        // let productTable1;
-        // let array2 = [];
-        // let testarray = db.collection('product').get().then(product => {
-        //     console.log(product);
-        //     let productTable1 = product;
-        //     let array1 = [];
-        //     for(let i = 0; i < productTable1.length; i++) {
-        //         if (productTable1[i].ProductName == `crap`) {
-        //             array1.push(productTable1[i]);
-        //         }
-        //     }
-        //     console.log(`"crap" rows:`,array1);
-        //     return array1;
-
-        // }).then(productTable1 => {
-        //     for(let i = 0; i < productTable1.length; i++) {
-        //         if (productTable1[i].ProductName == `crap`) {
-        //             array1.push(productTable1[i]);
-        //         }
-        //     }
-        //     console.log(array1);
-        // });
-
-        
-        
-        
-
-        // let firstTest = db.collection('product').doc({ ProductName: `test` }).get().then(document => {
-        //     console.log(document);
-        // });
-    </script>
     <script src="indexedDbService.localbase.js"></script>
     <script src="index.js"></script>
-    
 </body>
 </html>

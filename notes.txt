@@ -1,16 +1,25 @@
 - localbase library returns arrays and seems to be very straighforward.
 	- I think I can return the Inventory table, return the warehouse table, and just make a new array with the info I need to do a mock JOIN
 	
-for(let i = 0; i < productTable1.length; i++) {
-	if (productTable1[i].ProductName == `crap`) {
-		array1.push(productTable1[i]);
-	}
-}
+ORDER OF THINGS TO DO THEM IN
+1) Warehouse Page CRUD
+2) Inventory Page render and allow for assigning stock
 
+- main page, 
+	- could add a checkbox option to allow for assigning inventory to already made warehouses?
+		- checkbox makes a div visible, a dropdown to select the warehouse, and input for assigning quantity
+		- button to add another warehouse location with quantity
+			- button to remove that warehouse option
 
 - for warehouses, I think just having a page for adding and editing 
-
-- inventory
-	- product code dropdown, generated 
-	- warehouse dropdown, generated
-	- input for quantity, maybe with arrows up and down?, loaded from db
+	
+- inventory idea 2
+	- user clicks a product specific "Inventory" button on the main page...
+	- generates a table with all the warehouses
+	- for each warehouse, displays the quantities
+		- there is an input to add or subtract the quantities
+		- individual save buttons
+		- master save button
+		
+		
+		

@@ -92,13 +92,13 @@ async function productGetByCode(code) {
 async function productExists(code) {
     
     db.collection(`product`).doc({ProductCode: code}).get().then(product => {
-        console.log(`productExists length:`,product);
+        // console.log(`productExists length:`,product);
         if(product) {
             productExistsResult = true;
         } else {
             productExistsResult = false;
         }
-        console.log(`productExistsResult:`,productExistsResult)
+        // console.log(`productExistsResult:`,productExistsResult)
     })
     
 }
@@ -149,6 +149,19 @@ function returnInventory() {
         return inventory;
     })
 }
+
+
+let inventoryCheckRowResult;
+async function inventoryDuplicateRowCheck(code, wid) {
+    db.collection(`product`).doc({ProductCode: code, WarehouseId: wid}).get().then(row => {
+        if(row) {
+            productExistsResult = true;
+        } else {
+            productExistsResult = false;
+        }
+    })
+}
+
 
 // update
 

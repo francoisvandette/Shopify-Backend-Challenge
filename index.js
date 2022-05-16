@@ -31,8 +31,8 @@ async function productDisplayAll() {
                     <td>${product[i].data.Description}</td>
                     <td>${product[i].data.Category}</td>
                     <td><span class="quantity"></span></td>
-                    <td><button class="edit-btn" value=${product[i].data.ProductCode}>Edit</td>
-                    <td><button class="delete-btn" value=${product[i].data.ProductCode}>Delete</td>
+                    <td><button class="edit-btn" value=${product[i].data.ProductCode}>Edit</button></td>
+                    <td><button class="delete-btn" value=${product[i].data.ProductCode}>Delete</button></td>
                 </tr>
                 `;
         }
@@ -87,12 +87,11 @@ async function productDisplayAll() {
     // adding Table Delete Button functionality
     for(let i = 0; i < deleteBtns.length; i++) {
         deleteBtns[i].addEventListener(`click`, async function () {
-            // console.log(`deleting:`,deleteBtns[i].value);
             let con = confirm(`Are you sure you want to delete this product?`);
             if(con) {
                 await productDeleteByCode(deleteBtns[i].value);
             }
-            if(con && confirm(`Would you also like to delete all inventory listings?`)) {
+            if(con && confirm(`Would you also like to delete all inventory listings for this product?`)) {
                 await inventoryDeleteAllRowsByProductCode(deleteBtns[i].value);
             }
 

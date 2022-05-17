@@ -23,9 +23,11 @@
         </select><br>
 
         <label for="quantity">Quantity:</label>
-        <input type="text" name="quantity" id="quantity"><br>
+        <input type="text" name="quantity" id="quantity" autocomplete="off">
+        <span id="quantity-attention"></span><br>
 
         <button id="add-inventory-btn">Add Inventory</button>
+        <button id="edit-inventory-btn" style="display: none">Edit Inventory</button>
 
     </div><br>
     <div id="inventory-table">

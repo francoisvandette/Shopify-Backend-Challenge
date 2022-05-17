@@ -7,25 +7,16 @@ const inventoryKeySpan = document.querySelector(`#inventory-key`);
 const editInventoryBtn = document.querySelector(`#edit-inventory-btn`);
 const addInventoryBtn = document.querySelector(`#add-inventory-btn`);
 
-var products;
-var warehouses;
-let inventory;
-
 let editBtns;
 let deleteBtns;
 
-// startup
-(async function() {
-    products = await productGetAll();
-    warehouses = await warehouseGetAll();
-    await loadInventory();
-})();
-
-
+loadInventory();
 
 async function loadInventory() {
-    console.log(`loadInventoy started`);
-    // let p = await productGetAll();
+    let products = await productGetAll();
+    let warehouses = await warehouseGetAll();
+    let inventory = await inventoryGetAllWithKeys();
+    // products = await productGetAll();
 
     productDropDown.innerHTML = ``;
     let productDisplay = `<option disabled selected value> -- select a product -- </option>`;
@@ -47,20 +38,13 @@ async function loadInventory() {
     }
     warehouseDropDown.innerHTML = warehouseDisplay;
 
-
-
-    inventory = await inventoryGetAll();
-    
-
-    
-
     inventoryList.innerHTML = `<tr><td colspan="8">Loading...</td></tr>`;
     let tableRow = ``;
 
     // go through each inventory row
     for(let i = 0; i < inventory.length; i++) {
-        let product = await productGetByCode(inventory[i].ProductCode);
-        let warehouse = await warehouseGetById(inventory[i].WarehouseId);
+        let product = await productGetByCode(inventory[i].data.ProductCode);
+        let warehouse = await warehouseGetById(inventory[i].data.WarehouseId);
         tableRow += `
             <tr>
                 <td>${product.ProductCode}</td>
@@ -68,9 +52,9 @@ async function loadInventory() {
                 <td>${product.Category}</td>
                 <td>${warehouse.WarehouseName}</td>
                 <td>${warehouse.City}</td>
-                <td>${inventory[i].ProductLocationQuantity}</td>
-                <td><button class="edit-btn" data-code="${inventory[i].ProductCode}" data-id="${inventory[i].WarehouseId}">Edit</button></td>
-                <td><button class="delete-btn" data-code="${inventory[i].ProductCode}" data-id="${inventory[i].WarehouseId}">Delete</button></td>
+                <td>${inventory[i].data.ProductLocationQuantity}</td>
+                <td><button class="edit-btn" value="${inventory[i].key}">Edit</button></td>
+                <td><button class="delete-btn" value="${inventory[i].key}">Delete</button></td>
             </tr>
         `;
     }
@@ -83,7 +67,7 @@ async function loadInventory() {
     // edit button functionality
     for(let i = 0; i < editBtns.length; i++) {
         editBtns[i].addEventListener(`click`, async function() {
-            let row = await inventoryGetRowByCodeAndID(editBtns[i].dataset.code, editBtns[i].dataset.id);
+            let row = await inventoryGetRowByKey(editBtns[i].value);
             productDropDown.value = row.ProductCode;
             productDropDown.disabled = true;
             warehouseDropDown.value = row.WarehouseId;
@@ -100,7 +84,7 @@ async function loadInventory() {
         deleteBtns[i].addEventListener(`click`, async function() {
             let con = confirm(`Are you sure you want to delete this inventory entry?`);
             if(con){
-                await inventoryDeleteRowByCodeAndId(deleteBtns[i].dataset.code, deleteBtns[i].dataset.id);
+                await inventoryDeleteRowByKey(deleteBtns[i].value);
                 await loadInventory();
             }
             
@@ -113,7 +97,7 @@ async function loadInventory() {
 async function inventoryAdd() {
     let code = productDropDown.value;
     let warehouse = warehouseDropDown.value;
-    let rowCheck = await inventoryGetRowByCodeAndID(code, warehouse);
+    let rowCheck = await inventoryDuplicateRowCheck(code, warehouse);
 
     if(rowCheck){
         if(confirm(`Product already at this warehouse, would you like to update?`)){
@@ -140,20 +124,12 @@ async function inventoryEdit() {
     let warehouse = warehouseDropDown.value;
     let quantity = quantityValue.value;
 
-    await inventoryUpdateWithCodeAndId(code, warehouse, quantity).then(response => {
-        productDropDown.value = ``;
-        productDropDown.disabled = false;
-        warehouseDropDown.value = ``;
-        warehouseDropDown.disabled = false;
-        quantityValue.value = ``;
-        quantityAttention.innerHTML = ``;
-        editInventoryBtn.style.display = `none`;
-        addInventoryBtn.style.display = `block`;
-        loadInventory();
-    }).catch(error => {
-        // do nothing
-    })
-
+    await inventoryUpdateWithCodeAndId(code, warehouse, quantity);
+    // productDropDown.value = ``;
+    // warehouseDropDown.value = ``;
+    quantityValue.value = ``;
+    quantityAttention.innerHTML = ``;
+    await loadInventory();
 }
 
 editInventoryBtn.addEventListener(`click`, inventoryEdit);

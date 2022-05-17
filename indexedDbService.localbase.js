@@ -2,8 +2,6 @@
 const dbName = `FrancoisVandette_inventoryDB`;
 let db = new Localbase(dbName);
 
-let productExistsResult;
-
 function loadTestData() {
     // products
     db.collection(`product`).add({
@@ -101,14 +99,15 @@ async function productGetByCode(code) {
 }
 
 async function productExists(code) {
+    let result;
     await db.collection(`product`).doc({ProductCode: code}).get().then(product => {
         if(product) {
-            productExistsResult = true;
+            result = true;
         } else {
-            productExistsResult = false;
+            result = false;
         }
     })
-    
+    return result;
 }
 
 // update
@@ -195,40 +194,31 @@ async function inventoryCreate(productCode, warehouseId, quantity) {
 // read
 async function inventoryGetAll() {
     let i;
-    await db.collection(`inventory`).get().then(inventory => {
-        i = inventory;
+    await db.collection(`inventory`).get().then(response => {
+        i = response;
     })
     return i;
 }
 
 async function inventoryGetAllWithKeys() {
     let i;
-    await db.collection(`inventory`).get({ keys: true }).then(inventory => {
-        i = inventory;
+    await db.collection(`inventory`).get({ keys: true }).then(response => {
+        i = response;
     })
     return i;
 }
 
 async function inventoryGetRowByKey(key) {
     let result;
-    await db.collection(`inventory`).doc(key).get().then(row => {
+    await db.collection(`inventory`).doc(key.toString()).get().then(row => {
         result = row;
     })
     return result;
 }
 
-
-// let inventoryCheckRowResult;
-async function inventoryDuplicateRowCheck(code, id) {
+async function inventoryGetRowByCodeAndID(code, id) {
     let result;
     await db.collection(`inventory`).doc({ProductCode: code, WarehouseId: id}).get({ keys: true }).then(row => {
-        // if(row) {
-        //     productExistsResult = true;
-        //     result = true;
-        // } else {
-        //     productExistsResult = false;
-        //     result = false;
-        // }
         result = row;
     })
     return result;
@@ -245,7 +235,9 @@ async function inventoryUpdateWithKey(key, code, id, quantity) {
 }
 
 async function inventoryUpdateWithCodeAndId(code, id, quantity) {
-    db.collection(`inventory`).doc({ProductCode: code, WarehouseId: id}).update({
+    await db.collection(`inventory`).doc({ProductCode: code, WarehouseId: id}).update({
+        ProductCode: code, 
+        WarehouseId: id,
         ProductLocationQuantity: quantity
     })
 }
@@ -253,16 +245,16 @@ async function inventoryUpdateWithCodeAndId(code, id, quantity) {
 
 // delete
 async function inventoryDeleteAllRowsByProductCode(code) {
-    db.collection(`inventory`).get().then(inventory => {
-        for(let i = 0; i < inventory.length; i++) {
+    db.collection(`inventory`).get().then(invent => {
+        for(let i = 0; i < invent.length; i++) {
             db.collection('inventory').doc({ ProductCode: code }).delete();
         }
     })
 }
 
 async function inventoryDeleteAllRowsByWarehouseId(id) {
-    db.collection(`inventory`).get().then(inventory => {
-        for(let i = 0; i < inventory.length; i++) {
+    db.collection(`inventory`).get().then(invent => {
+        for(let i = 0; i < invent.length; i++) {
             db.collection(`inventory`).doc({WarehouseId: id}).delete();
         }
     })
@@ -270,4 +262,8 @@ async function inventoryDeleteAllRowsByWarehouseId(id) {
 
 async function inventoryDeleteRowByKey(key) {
     db.collection(`inventory`).doc(key).delete();
+}
+
+async function inventoryDeleteRowByCodeAndId(code, id) {
+    await db.collection(`inventory`).doc({ProductCode: code, WarehouseId: id}).delete();
 }

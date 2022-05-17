@@ -11,7 +11,39 @@
     <div id="header">
         <script src="header.js"></script>
     </div>
-    
+    <h1>Inventory Page</h1>
+    <div>
+        <label for="product-dropdown">Product:</label>
+        <select name="product-dropdown" id="product-dropdown">
+        </select><br>
+
+        <label for="warehouse-dropdown">Warehouse:</label>
+        <select name="warehouse-dropdown" id="warehouse-dropdown">
+        </select><br>
+
+        <label for="quantity">Quantity:</label>
+        <input type="text" name="quantity" id="quantity"><br>
+
+        <button id="add-inventory-btn">Add Inventory</button>
+
+    </div><br>
+    <div id="inventory-table">
+        <table>
+            <thead>
+                <th>Prod. Code</th>
+                <th>Prod. Name</th>
+                <th>Category</th>
+                <th>Warehouse Name</th>
+                <th>Warehouse City</th>
+                <th>Quantity at Location</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </thead>
+            <tbody id="inventory-list">
+                
+            </tbody>
+        </table>
+    </div>
 
     <script src="localbase.dev.js"></script>
     <script src="indexedDbService.localbase.js"></script>

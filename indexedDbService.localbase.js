@@ -34,27 +34,27 @@ function loadTestData() {
     // inventory
     db.collection(`inventory`).add({
         ProductCode: `Coke0-355`,
-        WarehouseId: 1,
+        WarehouseId: `1`,
         ProductLocationQuantity: 0
     });
     db.collection(`inventory`).add({
         ProductCode: `Coke0-355`,
-        WarehouseId: 2,
+        WarehouseId: `2`,
         ProductLocationQuantity: 1000
     });
     db.collection(`inventory`).add({
         ProductCode: `Coke-355`,
-        WarehouseId: 2,
+        WarehouseId: `2`,
         ProductLocationQuantity: 100
     });
     db.collection(`inventory`).add({
         ProductCode: `Ginger0-355`,
-        WarehouseId: 1,
+        WarehouseId: `1`,
         ProductLocationQuantity: 35
     });
     db.collection(`inventory`).add({
         ProductCode: `7up-355`,
-        WarehouseId: 2,
+        WarehouseId: `2`,
         ProductLocationQuantity: 7
     });
 
@@ -77,10 +77,16 @@ async function productCreate(code, name, desc, categ) {
 
 
 // read
-
+async function productGetAll() {
+    let p;
+    await db.collection(`product`).get().then(products => {
+        p = products;
+    })
+    return p;
+}
 
 async function productGetByKey(key) {
-    await db.collection.doc(key.toString()).get().then(product => {
+    await db.collection(`product`).doc(key.toString()).get().then(product => {
         console.log(product);
     })
 }
@@ -181,10 +187,20 @@ async function warehouseDeleteById(id) {
 
 
 // read
-function returnInventory() {
-    db.collection(`inventory`).get().then(inventory => {
-        return inventory;
+async function inventoryGetAll() {
+    let i;
+    await db.collection(`inventory`).get().then(inventory => {
+        i = inventory;
     })
+    return i;
+}
+
+async function inventoryGetAllWithKeys() {
+    let i;
+    await db.collection(`inventory`).get({ keys: true }).then(inventory => {
+        i = inventory;
+    })
+    return i;
 }
 
 

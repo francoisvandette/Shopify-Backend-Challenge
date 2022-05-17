@@ -184,7 +184,13 @@ async function warehouseDeleteById(id) {
 
 // Inventory CRUD
 // create
-
+async function inventoryCreate(productCode, warehouseId, quantity) {
+    db.collection(`inventory`).add({
+        ProductCode: productCode,
+        WarehouseId: warehouseId,
+        ProductLocationQuantity: quantity
+    })
+}
 
 // read
 async function inventoryGetAll() {
@@ -203,21 +209,46 @@ async function inventoryGetAllWithKeys() {
     return i;
 }
 
-
-let inventoryCheckRowResult;
-async function inventoryDuplicateRowCheck(code, wid) {
-    db.collection(`inventory`).doc({ProductCode: code, WarehouseId: wid}).get().then(row => {
-        if(row) {
-            productExistsResult = true;
-        } else {
-            productExistsResult = false;
-        }
+async function inventoryGetRowByKey(key) {
+    let result;
+    await db.collection(`inventory`).doc(key).get().then(row => {
+        result = row;
     })
+    return result;
+}
+
+
+// let inventoryCheckRowResult;
+async function inventoryDuplicateRowCheck(code, id) {
+    let result;
+    await db.collection(`inventory`).doc({ProductCode: code, WarehouseId: id}).get({ keys: true }).then(row => {
+        // if(row) {
+        //     productExistsResult = true;
+        //     result = true;
+        // } else {
+        //     productExistsResult = false;
+        //     result = false;
+        // }
+        result = row;
+    })
+    return result;
 }
 
 
 // update
+async function inventoryUpdateWithKey(key, code, id, quantity) {
+    db.collection(`inventory`).doc(key).update({
+        ProductCode: code,
+        WarehouseId: id,
+        ProductLocationQuantity: quantity
+    })
+}
 
+async function inventoryUpdateWithCodeAndId(code, id, quantity) {
+    db.collection(`inventory`).doc({ProductCode: code, WarehouseId: id}).update({
+        ProductLocationQuantity: quantity
+    })
+}
 
 
 // delete
@@ -230,9 +261,13 @@ async function inventoryDeleteAllRowsByProductCode(code) {
 }
 
 async function inventoryDeleteAllRowsByWarehouseId(id) {
-    await db.collection(`inventory`).get().then(inventory => {
+    db.collection(`inventory`).get().then(inventory => {
         for(let i = 0; i < inventory.length; i++) {
-            db.collection('inventory').doc({ WarehouseId: id }).delete();
+            db.collection(`inventory`).doc({WarehouseId: id}).delete();
         }
     })
+}
+
+async function inventoryDeleteRowByKey(key) {
+    db.collection(`inventory`).doc(key).delete();
 }

@@ -86,8 +86,51 @@ async function loadWarehouseInfo() {
             }
 
             await loadWarehouseInfo();
+            
         })
     }
 }
 
+async function setWarehouseEdit() {
+    let id = editId.innerHTML;
+    let name = inputName.value || inputName.placeholder;
+    let address = inputAddress.value || inputAddress.placeholder;
+    let city = inputCity.value || inputCity.placeholder;
+    let province = inputProvince.value || inputProvince.placeholder;
+    let postal = inputPostal.value || inputPostal.placeholder;
+    let country = inputCountry.value || inputCountry.placeholder;
+    await warehouseEditById(id, name, address, city, province, postal, country);
 
+    inputName.value = inputName.placeholder = ``;
+    inputAddress.value = inputAddress.placeholder = ``;
+    inputCity.value = inputCity.placeholder = ``;
+    inputProvince.value = inputProvince.placeholder = ``;
+    inputPostal.value = inputPostal.placeholder = ``;
+    inputCountry.value = inputCountry.placeholder = ``;
+    editId.innerHTML = ``;
+    inputId.style.display = `inline`;
+    inputId.value = ``;
+    editWarehouseBtn.style.display = `none`;
+    createWarehouseBtn.style.display = `block`;
+
+    await loadWarehouseInfo();
+}
+
+editWarehouseBtn.addEventListener(`click`, setWarehouseEdit);
+
+async function createWarehouse() {
+    let check = await warehouseGetById(inputId.value);
+    if(!check){
+        await warehouseCreate(inputId.value, inputName.value, 
+                inputAddress.value, inputCity.value, inputProvince.value, 
+                inputPostal.value, inputCountry.value);
+        inputId.value = inputName.value = inputAddress.value = ``;
+        inputCity.value = inputProvince.value = inputPostal.value = ``;
+        inputCountry.value = ``;
+        await loadWarehouseInfo();
+    } else {
+        alert(`Warehouse ID already exists, use a different one.`);
+    }
+}
+
+createWarehouseBtn.addEventListener(`click`, createWarehouse);

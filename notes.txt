@@ -1,5 +1,0 @@
-TODO:
-
-- add span next to Inventory Quantity input
-- when editing inventory, have the span change to queue the user they are setting the new location total for the product
-- 

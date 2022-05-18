@@ -5,54 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Inventory Manager: Home/Product</title>
+    <title>Inventory Manager: Home</title>
 </head>
 <body>
     <div id="header">
         <script src="header.js"></script>
     </div>
-    <h1>Product Page</h1>
     <div>
-        <form>
-            <!-- code -->
-            <label for="product-code-input">Product Code:</label>
-            <input type="text" id="product-code-input"><span id="product-code-edit"></span><br>
-            <!-- name -->
-            <label for="product-name-input">Product Name:</label>
-            <input type="text" id="product-name-input"><br>
-            <!-- desc -->
-            <label for="product-description-input">Description:</label>
-            <input type="text" id="product-description-input"><br>
-            <!-- categ -->
-            <label for="product-category-input">Category:</label>
-            <input type="text" id="product-category-input"><br>
-            <!-- checkbox -->
-            <!-- <label for="add-inventory-checkbox">Add Inventory?:</label>
-            <input type="checkbox" id="add-inventory-check"><br> -->
-
-
-            <button type="button" id="create-product-btn" style="display: block">Create Product</button>
-            <button type="button" id="edit-product-btn" style="display: none;">Edit Product</button>
-        </form><br>
+        <h1>Welcome to the Inventory Manager</h1>
+        <p>If you wish to add some test data, please press the button below. It will disappear after being pressed.</p>
+        <button id="load-test-data">Load Test Data</button>
+        <p>If you wish to delete all the data in the database, press the button below.</p>
+        <button id="delete-all-data">Delete All Data</button>
     </div>
-    <div id="product-table">
-        <table>
-            <thead>
-                <th>Prod.Code</th>
-                <th>Prod. Name</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Total Quantity</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </thead>
-            <tbody id="product-list">
-                
-            </tbody>
-        </table>
-    </div>
-
-
     
     <script src="localbase.dev.js"></script>
     <script src="indexedDbService.localbase.js"></script>

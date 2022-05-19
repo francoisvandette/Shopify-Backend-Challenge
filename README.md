@@ -5,7 +5,7 @@ https://github.com/francoisvandette/Shopify-Backend-Challenge
 <h2>The Project</h2>
   <p>This is an Inventory Management web app where the user can create, update, delete, and view their products, warehouses, and the respective inventory of each product at each location.</p>
   <p>It uses IndexedDB, which is built into all modern browsers, and is a NoSQL type database. A library named "Localbase" is also used in development.</p>
-<h2>Link to Localbase</h2>
+<h3>Link to Localbase</h3>
   <a href="https://github.com/dannyconnell/localbase">https://github.com/dannyconnell/localbase</a>
 <h2>How to use this web-app</h2>
 <h3>To start:</h3>

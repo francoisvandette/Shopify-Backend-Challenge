@@ -11,8 +11,8 @@ https://github.com/francoisvandette/Shopify-Backend-Challenge
 <h3>To start:</h3>
   <p>When the user first starts up this web-app, there is no information in the database, and the user is presented with two buttons which are there for the purposes of demonstrating this Inventory Management web-app:
     <ul>
-      <li><b>Load Test Data</b> - which loads some data to demonstrate the functionality of the web-app.</li>
-      <li><b>Delete All Data</b> - which deletes all the data in the database.</li>
+      <li><b>Load Test Data</b> button - which loads some data to demonstrate the functionality of the web-app.</li>
+      <li><b>Delete All Data</b> button - which deletes all the data in the database.</li>
     </ul>
     This Inventory management web-app is functional with or without pre-loading any data.
   </p>
